@@ -4,7 +4,7 @@ from collections import OrderedDict
 # import pandas as pd
 
 __program__ = os.path.split(sys.argv[0])[-1]
-__version__ = "2021.06.19"
+__version__ = "2023.6.29"
 
 def main(args=None):
     # Path info
@@ -60,6 +60,8 @@ def main(args=None):
                 id_contig,
                 "_",
                 id.split("_")[-1],
+                ";",
+                "gene_biotype=protein_coding",
                 ";",
                 sep="",
             file=f_out)
