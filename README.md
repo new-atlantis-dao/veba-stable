@@ -17,14 +17,9 @@
 
 **The official *New Atlantis Labs* mirror of [VEBA](github.com/jolespin/veba)**
 
-![New-Atlantis](images/new-atlantis.png)
+[![Schematic](images/graphical-abstract.png)](images/graphical-abstract.pdf)
 
 
-```
- _    _ _______ ______  _______
-  \  /  |______ |_____] |_____|
-   \/   |______ |_____] |     |
-```
 
 ### What is VEBA? 
 The *Viral Eukaryotic Bacterial Archaeal* (VEBA) is an open-source software suite developed with all domains of microorganisms as the primary objective (not post hoc adjustments) including prokaryotic, eukaryotic, and viral organisms.  VEBA is an end-to-end metagenomics and bioprospecting software suite that can directly recover and analyze eukaryotic and viral genomes in addition to prokaryotic genomes with native support for candidate phyla radiation (CPR). VEBA implements a novel iterative binning procedure and an optional hybrid sample-specific/multi-sample framework that recovers more genomes than non-iterative methods.  To optimize the microeukaryotic gene calling and taxonomic classifications, VEBA includes a consensus microeukaryotic database containing protists and fungi compiled from several existing databases. VEBA also provides a unique clustering-based dereplication strategy allowing for sample-specific genomes and proteins to be directly compared across non-overlapping biological samples. VEBA also automates biosynthetic gene cluster identification and novelty scores for bioprospecting.
@@ -37,9 +32,10 @@ ___________________________________________________________________
 
 ### Citation
 
-Espinoza JL, Dupont CL. VEBA: a modular end-to-end suite for in silico recovery, clustering, and analysis of prokaryotic, microeukaryotic, and viral genomes from metagenomes. BMC Bioinformatics. 2022 Oct 12;23(1):419. [doi: 10.1186/s12859-022-04973-8](https://doi.org/10.1186/s12859-022-04973-8). PMID: 36224545.
+* Espinoza JL, Phillips A, Prentic MB, Tan GS, Kamath PL, Lloyd KG, Dupont CL. Unveiling the Microbial Realm with VEBA 2.0: A modular bioinformatics suite for end-to-end genome-resolved prokaryotic, (micro)eukaryotic, and viral multi-omics from either short- or long-read sequencing.  [BioRxiv Preprint: doi.org/10.1101/2024.03.08.583560v2](https://www.biorxiv.org/content/10.1101/2024.03.08.583560v2). In review somewhere else.
+* Espinoza JL, Dupont CL. VEBA: a modular end-to-end suite for in silico recovery, clustering, and analysis of prokaryotic, microeukaryotic, and viral genomes from metagenomes. BMC Bioinformatics. 2022 Oct 12;23(1):419. [doi: 10.1186/s12859-022-04973-8](https://doi.org/10.1186/s12859-022-04973-8). PMID: 36224545.
 
-Please cite the software dependencies described under the [*Dependency Citation Table*](CITATIONS.md).
+In addition to the above, please cite the software dependencies described under the [*Dependency Citation Table*](CITATIONS.md).
 
 <p align="right"><a href="#readme-top">^__^</a></p>
 
@@ -47,71 +43,89 @@ ___________________________________________________________________
 
 ### Announcements
 
-* **What's new in `VEBA v1.3.0`?**
+* **Current Stable Version:** [`v2.1.0`](https://github.com/jolespin/veba/releases/tag/v2.1.0)
 
-* **`VEBA` Modules:**
-	* Added `profile-pathway.py` module and associated scripts for building `HUMAnN` databases from *de novo* genomes and annotations.  Essentially, a reads-based functional profiling method via `HUMAnN` using binned genomes as the database.
-	* Added `marker_gene_clustering.py` script which identifies core marker proteins that are present in all genomes within a genome cluster (i.e., pangenome) and unique to only that genome cluster.  Clusters in either protein or nucleotide space.
-	* Added `module_completion_ratios.py` script which calculates KEGG module completion ratios for genomes and pangenomes. Automatically run in backend of `annotate.py`.
-	* Updated `annotate.py` and `merge_annotations.py` to provide better annotations for clustered proteins.
-	* Added `merge_genome_quality.py` and `merge_taxonomy_classifications.py` which compiles genome quality and taxonomy, respectively, for all organisms.
-	* Added BGC clustering in protein and nucleotide space to `biosynthetic.py`.  Also, produces prevalence tables that can be used for further clustering of BGCs.
-	* Added `pangenome_core_sequences` in `cluster.py` writes both protein and CDS sequences for each genome cluster.
-	* Added PDF visualization of newick trees in `phylogeny.py`.
+* **Current Database Version:** `VDB_v6`
 
-	
-* **`VEBA` Database (`VDB_v5.2`)**:
-	* Added `CAZy`
-	* Added `MicrobeAnnotator-KEGG`
+	<details>
+		<summary>New features and updates:</summary>
 
-Check out the [*VEBA* Change Log](CHANGELOG.md) for insight into what is being implemented in the upcoming version.
+	* **`VEBA` Modules:**
+		* Expanded functionality, streamlined user-interface, and Docker containerization
+		* Fast and memory-efficient genome- and protein-level clustering
+		* Automatic calculation of feature compression ratios
+		* Large/complex metagenomes and long-read technology support
+		* Bioprospecting and natural product discovery support
+		* Ribosomal RNA, transfer RNA, and organelle support
+		* Genome-resolved taxonomic and pathway profiling
+		* Identification and classification of mobile genetic elements
+		* Native support for candidate phyla radiation quality assessment and memory- efficient genome classification
+		* Standalone support for generalized multi-split binning
+		* Automated phylogenomic functional category feature engineering support
+		* Visualizations of hierarchical data and phylogenies
+		* Added minimum alignment fraction threshold for genome clustering
 
-<p align="right"><a href="#readme-top">^__^</a></p>
+	* **`VEBA` Database (`VDB_v6`)**:
 
+		* Completely rebuilt `VEBA's Microeukaryotic Protein Database` to produce a clustered database `MicroEuk100/90/50` similar to `UniRef100/90/50`. Available on [doi:10.5281/zenodo.10139450](https://zenodo.org/records/10139451).
+		* Expanded protein annotation database
 
-___________________________________________________________________
+	</details>
 
-
-### Installation and databases
-
-**Current Stable Version:** [`v1.3.0`](https://github.com/jolespin/veba/releases/tag/v1.3.0)
-
-**Current Database Version:** `VDB_v5.2`
-
-Please refer to the [*Installation and Database Configuration Guide*](install/README.md) for software installation and database configuration.
-
-Docker containers are now available (starting with `v1.1.2`) for all modules via [DockerHub](https://hub.docker.com/repositories/jolespin)
 
 <p align="right"><a href="#readme-top">^__^</a></p>
+
 
 ___________________________________________________________________
 
 ### Getting started with *VEBA*
 
-[Usage and resource requirements guide](src/README.md) for parameters and module descriptions
 
-[*Walkthrough Guides*](walkthroughs/README.md) for tutorials and workflows on how to get started
- 
+
+
+[*Installation and Database Configuration Guide*](install/README.md) for software installation and database configuration.
+
+[*Usage and Resource Requirements Guide*](bin/README.md) for parameters and module descriptions
+
+[*Walkthrough Guides*](walkthroughs/README.md) for tutorials and workflows on how to use VEBA
+
+[*Visual Guides*](https://www.youtube.com/@VEBA-Multiomics) for video walkthroughs on how to use VEBA
+
+[*Quick Guides*](walkthroughs/docs/interpreting_module_outputs.md) for interpreting module outputs.
+
+[*Test Data*](data/README.md) for testing installation/methods.
+
+
+**Usage Example:**
+
+e.g., Running `preprocess` module. 
+
+1) Syntax compatible with Conda:
+
+```
+source activate VEBA
+veba --module preprocess --params "{PARAMS}" 
+```
+
+2) Syntax compatible with Conda and Docker/Singularity containers:
+
+```
+source activate VEBA-preprocess_env
+preprocess.py "{PARAMS}"
+```
+
+Check out the [*VEBA* Change Log](CHANGELOG.md) for details between each update and insight into what is being implemented in the upcoming version.
+
 <p align="right"><a href="#readme-top">^__^</a></p>
 
 ___________________________________________________________________
 
-### What does *VEBA* do?
-
-Please refer to the [*Modules*](src/README.md) for a description of all *VEBA* modules and their functionality.
-
-If you wish *VEBA* did something that isn't implemented, please submit a [`[Feature Request Issue]`](https://github.com/jolespin/veba/issues/new/choose).
-
-[![Schematic](images/Schematic.png)](images/Schematic.pdf)
-
-<p align="right"><a href="#readme-top">^__^</a></p>
-
-___________________________________________________________________
 
 ### Output structure
 *VEBA*'s is built on the [*GenoPype*](https://github.com/jolespin/genopype) archituecture which creates a reproducible and easy-to-navigate directory structure.  *GenoPype*'s philosophy is to use the same names for all files but to have sample names as subdirectories.  This makes it easier to glob files for grepping, concatenating, etc. *NextFlow* support is in the works...
 
-Example of *GenoPype*'s layout:
+<details>
+	<summary> Example of GenoPype layout: </summary>
 
 ```
 # Project directory
@@ -141,8 +155,6 @@ project_directory/output/
 project_directory/commands.sh
 ```
 
-
-
 For *VEBA*, it has all the directories created by `GenoPype` above but is built for having multiple samples under the same project. 
 
 Example of *VEBA*'s default directory layout:
@@ -171,6 +183,7 @@ veba_output/binning/viral/${ID}/output/
 
 The above are default output locations but they can be customized.
 
+</details>
 
 <p align="right"><a href="#readme-top">^__^</a></p>
 
@@ -178,13 +191,11 @@ ___________________________________________________________________
 
 ### Frequently Asked Questions
 
-If perusing the [*Frequently Asked Questions*](FAQ.md) doesn't address your question, feel free to submit a [[`Question Issue`]](https://github.com/jolespin/veba/issues/new) 
+If perusing the [*Frequently Asked Questions*](FAQ.md) doesn't address your question, feel free to submit a [[`Question`]](https://github.com/jolespin/veba/issues/new) 
 
 <p align="right"><a href="#readme-top">^__^</a></p>
 
 ___________________________________________________________________
-
-
 
 [![Discord](https://img.shields.io/badge/Discord-NewAtlantis-7289da)](https://discord.gg/newatlantis)
 [![Twitter](https://img.shields.io/badge/Twitter-%40NewAtlantisDAO-00acee)](https://twitter.com/NewAtlantisDAO)
