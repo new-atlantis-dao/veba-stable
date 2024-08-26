@@ -94,6 +94,14 @@ You should end up with a directory with the annotation database files and placeh
 
 ______________________
 
+#### How can I use Docker or Singularity to run VEBA?
+
+Check out the [*VEBA* walkthroughs for Docker, Singularity, and AWS](https://github.com/jolespin/veba/tree/main/walkthroughs#containerization-and-aws).
+
+<p align="right"><a href="#faq-top">^__^</a></p>
+
+______________________
+
 #### I already have genomes binned and/or genes modeled from another program or downloaded from a repository (e.g., NCBI), can I use them with *VEBA*?
 
 Yes! *VEBA* isn't restrictive with the source of the data for most of the modules.  If you have genomes or gene models derived from another source, you can still use the following modules: `coverage.py`, `cluster.py`, `annotate.py`, `phylogeny.py`, `index.py`, `mapping.py`, and any of the [utility scripts](https://github.com/jolespin/veba/tree/main/src/scripts) that apply. 
@@ -644,10 +652,68 @@ Are there any large contigs? What's the N50?
 
 ______________________
 
-#### How can I use Docker or Singularity to run VEBA?
 
-Check out the [*VEBA* walkthroughs for Docker, Singularity, and AWS](https://github.com/jolespin/veba/tree/main/walkthroughs#containerization-and-aws).
+#### How was the MicroEuk_v3 database compiled from the source databases?
+
+Check out the [*VEBA* step-by-step guide](https://github.com/jolespin/veba/tree/main/data/MicroEuk_v3/README.md) on how the MicroEuk_v3 protein database was generated.
 
 <p align="right"><a href="#faq-top">^__^</a></p>
 
 ______________________
+
+#### How can I update the database from VEBA v2.1.0 (VEBA Database: VDB_v6) to VEBA v2.2.0 (VEBA Database: VDB_v7)?
+
+After uninstalling and installing the new environments: 
+
+```
+bash veba/uninstall.sh
+bash veba/install.sh
+```
+
+Next you need to update the database. In `GTDB-Tk v2.3.x` the database used was `r214.1` but with `GTDB-Tk v2.4.x` the database used is `r220`.  This update is essential because it swaps out `FastANI` for `Skani` which is already used throughout `VEBA`. We have also changed some directory names and added a few more essential files. To do this, you can follow these steps: 
+
+```bash
+# 1. Set VEBA database directory to the `DATABASE_DIRECTORY` variable in an interactive session or a script
+DATABASE_DIRECTORY=/path/to/veba_database
+
+# 2. Clear out the existing `GTDB` directory. We could use a wildcard but a single misplaced space can have drastic consequences.  Better to be safe with splitting into 2 lines.
+rm -rfv ${DATABASE_DIRECTORY}/Classify/GTDB/
+mkdir -p ${DATABASE_DIRECTORY}/Classify/GTDB/
+
+# 3. Download GTDB from the data.ace.uq.edu.au mirror b/c it's way faster than data.gtdb.ecogenomic.org.
+GTDB_VERSION="220"
+wget -v -P ${DATABASE_DIRECTORY} https://data.ace.uq.edu.au/public/gtdb/data/releases/release${GTDB_VERSION}/${GTDB_VERSION}.0/auxillary_files/gtdbtk_package/full_package/gtdbtk_r${GTDB_VERSION}_data.tar.gz
+tar xvzf ${DATABASE_DIRECTORY}/gtdbtk_r${GTDB_VERSION}_data.tar.gz -C ${DATABASE_DIRECTORY}
+rm -rf ${DATABASE_DIRECTORY}/Classify/GTDB
+mv ${DATABASE_DIRECTORY}/release${GTDB_VERSION} ${DATABASE_DIRECTORY}/Classify/GTDB
+echo "r${GTDB_VERSION}" > ${DATABASE_DIRECTORY}/Classify/GTDB/database_version
+wget -P ${DATABASE_DIRECTORY}/Classify/GTDB/ https://data.ace.uq.edu.au/public/gtdb/data/releases/release${GTDB_VERSION}/${GTDB_VERSION}.0/RELEASE_NOTES.txt 
+rm -rf ${DATABASE_DIRECTORY}/gtdbtk_r${GTDB_VERSION}_data.tar.gz
+
+# 4. Download GTDB r220 mash sketch database
+GTDB_ZENODO_RECORD_ID="11494307"
+wget -v -O ${DATABASE_DIRECTORY}/gtdb_r${GTDB_VERSION}.msh https://zenodo.org/records/${GTDB_ZENODO_RECORD_ID}/files/gtdb_r${GTDB_VERSION}.msh?download=1
+mkdir -p ${DATABASE_DIRECTORY}/Classify/GTDB/mash/
+mv ${DATABASE_DIRECTORY}/gtdb_r${GTDB_VERSION}.msh ${DATABASE_DIRECTORY}/Classify/GTDB/mash/gtdb.msh
+
+# 5. Download the Pfam clans
+wget -v -P ${DATABASE_DIRECTORY}/Annotate/Pfam http://ftp.ebi.ac.uk/pub/databases/Pfam/current_release/Pfam-A.clans.tsv.gz
+
+# 6. Change KOFAM to KOfam
+mv ${DATABASE_DIRECTORY}/Annotate/KOFAM ${DATABASE_DIRECTORY}/Annotate/KOfam
+```
+
+GitHub doesn't push case change on files so you might have to update this manually: https://github.com/desktop/desktop/issues/5537#
+
+After you have the databases downloaded, then you need to set up your environment variables for the `VEBA-classify-prokaryotic_env`:
+
+```bash
+bash veba/install/update_environment_variables.sh /path/to/veba_database
+```
+
+For more details on this last step, see [how to update environment variables with pre-configured database](https://github.com/jolespin/veba/tree/main/install#updating-environment-variables-with-pre-configured-database).
+
+<p align="right"><a href="#faq-top">^__^</a></p>
+
+______________________
+
