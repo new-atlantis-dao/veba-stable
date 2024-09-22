@@ -13,15 +13,7 @@ from soothsayer_utils import *
 pd.options.display.max_colwidth = 100
 # from tqdm import tqdm
 __program__ = os.path.split(sys.argv[0])[-1]
-<<<<<<< HEAD
-__version__ = "2024.4.29"
-=======
-<<<<<<<< HEAD:src/binning-prokaryotic.py
-__version__ = "2023.10.16"
-========
-__version__ = "2024.8.29"
->>>>>>>> 5690f370f243338e6c84da4b7df7be6740e21133:bin/binning-prokaryotic.py
->>>>>>> 5690f370f243338e6c84da4b7df7be6740e21133
+__version__ = "2024.9.2"
 
 # Assembly
 def get_coverage_cmd( input_filepaths, output_filepaths, output_directory, directories, opts):
@@ -113,15 +105,7 @@ def get_pyrodigal_cmd(input_filepaths, output_filepaths, output_directory, direc
 
             "&&",
 
-<<<<<<< HEAD
-        "rm",
-=======
-<<<<<<<< HEAD:src/binning-prokaryotic.py
-        "rm",
-========
         "rm -rf",
->>>>>>>> 5690f370f243338e6c84da4b7df7be6740e21133:bin/binning-prokaryotic.py
->>>>>>> 5690f370f243338e6c84da4b7df7be6740e21133
         os.path.join(directories["tmp"], "tmp.*")
 
     ]
@@ -563,24 +547,10 @@ def get_consolidate_cmd(input_filepaths, output_filepaths, output_directory, dir
 
     cmd = [
         """
-<<<<<<< HEAD
-=======
-<<<<<<<< HEAD:src/binning-prokaryotic.py
-rm -rf {}
-========
->>>>>>>> 5690f370f243338e6c84da4b7df7be6740e21133:bin/binning-prokaryotic.py
->>>>>>> 5690f370f243338e6c84da4b7df7be6740e21133
 mkdir -p {}
 S2B=$(ls {}) || (echo 'No genomes have been detected' && exit 1)
 
 """.format(
-<<<<<<< HEAD
-=======
-<<<<<<<< HEAD:src/binning-prokaryotic.py
-    os.path.join(output_directory, "*"),
-========
->>>>>>>> 5690f370f243338e6c84da4b7df7be6740e21133:bin/binning-prokaryotic.py
->>>>>>> 5690f370f243338e6c84da4b7df7be6740e21133
     os.path.join(output_directory, "genomes"),
     os.path.join(directories["intermediate"], "*__checkm2",  "filtered", "scaffolds_to_bins.tsv"),
     ),
@@ -640,15 +610,7 @@ DIR_TRNA={}
 OUTPUT_DIRECTORY={}
 mkdir -p $OUTPUT_DIRECTORY
 
-<<<<<<< HEAD
 for GENOME_FASTA in $(ls {});
-=======
-<<<<<<<< HEAD:src/binning-prokaryotic.py
-for GENOME_FASTA in {};
-========
-for GENOME_FASTA in $(ls {});
->>>>>>>> 5690f370f243338e6c84da4b7df7be6740e21133:bin/binning-prokaryotic.py
->>>>>>> 5690f370f243338e6c84da4b7df7be6740e21133
 do
     ID=$(basename $GENOME_FASTA .fa)
     DIR_GENOME=$(dirname $GENOME_FASTA)
@@ -674,15 +636,7 @@ done
 
     cmd += [ 
 
-<<<<<<< HEAD
         "DST={}; for SRC in $(ls {}); do SRC=$(realpath --relative-to $DST $SRC); ln -sf $SRC $DST; done".format(
-=======
-<<<<<<<< HEAD:src/binning-prokaryotic.py
-        "DST={}; for SRC in {}; do SRC=$(realpath --relative-to $DST $SRC); ln -sf $SRC $DST; done".format(
-========
-        "DST={}; for SRC in $(ls {}); do SRC=$(realpath --relative-to $DST $SRC); ln -sf $SRC $DST; done".format(
->>>>>>>> 5690f370f243338e6c84da4b7df7be6740e21133:bin/binning-prokaryotic.py
->>>>>>> 5690f370f243338e6c84da4b7df7be6740e21133
         os.path.join(output_directory,"genomes"),
         os.path.join(directories[("intermediate", "{}__barrnap".format(step-3))], "*.rRNA"),
     ),
@@ -693,15 +647,7 @@ done
     cmd += [ 
             "&&",
 
-<<<<<<< HEAD
         "DST={}; for SRC in $(ls {}); do SRC=$(realpath --relative-to $DST $SRC); ln -sf $SRC $DST; done".format(
-=======
-<<<<<<<< HEAD:src/binning-prokaryotic.py
-        "DST={}; for SRC in {}; do SRC=$(realpath --relative-to $DST $SRC); ln -sf $SRC $DST; done".format(
-========
-        "DST={}; for SRC in $(ls {}); do SRC=$(realpath --relative-to $DST $SRC); ln -sf $SRC $DST; done".format(
->>>>>>>> 5690f370f243338e6c84da4b7df7be6740e21133:bin/binning-prokaryotic.py
->>>>>>> 5690f370f243338e6c84da4b7df7be6740e21133
         os.path.join(output_directory,"genomes"),
         os.path.join(directories[("intermediate", "{}__trnascan-se".format(step-2))], "*.tRNA"),
     ),
@@ -789,15 +735,7 @@ done
         os.path.join(output_directory,"gene_statistics.tRNA.tsv"),
 
         # Binned/Unbinned
-<<<<<<< HEAD
             "&&",
-=======
-<<<<<<<< HEAD:src/binning-prokaryotic.py
-                    "&&",
-========
-            "&&",
->>>>>>>> 5690f370f243338e6c84da4b7df7be6740e21133:bin/binning-prokaryotic.py
->>>>>>> 5690f370f243338e6c84da4b7df7be6740e21133
 
         "cat",
         opts.fasta,
@@ -1662,8 +1600,8 @@ def main(args=None):
     parser_binning.add_argument("-s", "--minimum_genome_length", type=int, default=150000, help="Minimum genome length.  [Default: 150000]")
     parser_binning.add_argument("--concoct_fragment_length", type=int, default=10000, help="CONCOCT | Fragment length [Default: 10000] ")
     parser_binning.add_argument("--concoct_overlap_length", type=int, default=0, help="CONCOCT | Fragment overlap length [Default: 0] ")
-    parser_binning.add_argument("--skip_maxbin2", action="store_true", help="MaxBin2 | Skip MaxBin2. Useful for large datasets")
-    parser_binning.add_argument("--skip_concoct", action="store_true", help="CONCOCT | Skip CONCOCT. Useful when there's a lot of samples")
+    parser_binning.add_argument("--skip_maxbin2", action="store_true", help="MaxBin2 | Skip MaxBin2. Useful when there's many contigs/scaffolds")
+    parser_binning.add_argument("--skip_concoct", action="store_true", help="CONCOCT | Skip CONCOCT. Useful when there's many BAM files")
     parser_binning.add_argument("--maxbin2_options", type=str, default="", help="MaxBin2 | More options (e.g. --arg 1 ) [Default: ''] | https://sourceforge.net/projects/maxbin/")
     parser_binning.add_argument("--metabat2_options", type=str, default="", help="MetaBat2 | More options (e.g. --arg 1 ) [Default: ''] | https://bitbucket.org/berkeleylab/metabat/src/master/")
     parser_binning.add_argument("--concoct_options", type=str, default="", help="CONCOCT | More options (e.g. --arg 1 ) [Default: '']")

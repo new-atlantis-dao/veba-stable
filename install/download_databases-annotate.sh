@@ -1,6 +1,6 @@
 #!/bin/bash
-# __version__ = "2024.6.8"
-# VEBA_DATABASE_VERSION = "VDB_v7"
+# __version__ = "2024.9.21"
+# VEBA_DATABASE_VERSION = "VDB_v8"
 # MICROEUKAYROTIC_DATABASE_VERSION = "MicroEuk_v3"
 # usage: bash veba/download_databases-annotate.sh /path/to/veba_database_destination/
 
@@ -9,7 +9,8 @@ DATABASE_DIRECTORY=${1:-"."}
 REALPATH_DATABASE_DIRECTORY=$(realpath $DATABASE_DIRECTORY)
 SCRIPT_DIRECTORY=$(dirname "$0")
 
-# N_JOBS=$(2:-"1")
+MAXIMUM_NUMBER_OF_CPU=$(python -c "from multiprocessing import cpu_count; print(cpu_count())")
+N_JOBS=${3:-${MAXIMUM_NUMBER_OF_CPU}}
 
 # Database structure
 echo ". .. ... ..... ........ ............."
@@ -34,10 +35,15 @@ wget -v -O - ftp://ftp.genome.jp/pub/db/kofam/ko_list.gz | gzip -d > ${DATABASE_
 wget -v -c ftp://ftp.genome.jp/pub/db/kofam/profiles.tar.gz -O - |  tar -xz
 mv profiles ${DATABASE_DIRECTORY}/Annotate/KOfam/
 
-wget -v -O ${DATABASE_DIRECTORY}/MicrobeAnnotator-KEGG.tar.gz https://zenodo.org/records/10020074/files/MicrobeAnnotator-KEGG.tar.gz?download=1
-tar xvzf ${DATABASE_DIRECTORY}/MicrobeAnnotator-KEGG.tar.gz -C ${DATABASE_DIRECTORY}/Annotate --no-xattrs
-rm -rf ${DATABASE_DIRECTORY}/Annotate/._MicrobeAnnotator-KEGG
-rm -rf ${DATABASE_DIRECTORY}/MicrobeAnnotator-KEGG.tar.gz
+## KEGG MicrobeAnnotator
+#wget -v -O ${DATABASE_DIRECTORY}/MicrobeAnnotator-KEGG.tar.gz https://zenodo.org/records/10020074/files/MicrobeAnnotator-KEGG.tar.gz?download=1
+#tar xvzf ${DATABASE_DIRECTORY}/MicrobeAnnotator-KEGG.tar.gz -C ${DATABASE_DIRECTORY}/Annotate --no-xattrs
+#rm -rf ${DATABASE_DIRECTORY}/Annotate/._MicrobeAnnotator-KEGG
+#rm -rf ${DATABASE_DIRECTORY}/MicrobeAnnotator-KEGG.tar.gz
+
+# KEGG Pathway Profiler
+mkdir -p ${DATABASE_DIRECTORY}/Annotate/KEGG-Pathway-Profiler/
+build-pathway-database.py --force --download --intermediate_directory ${DATABASE_DIRECTORY}/Annotate/KEGG-Pathway-Profiler/ --database ${DATABASE_DIRECTORY}/Annotate/KEGG-Pathway-Profiler/database.pkl.gz
 
 # Pfam
 echo ". .. ... ..... ........ ............."
@@ -78,19 +84,19 @@ mkdir -v -p ${DATABASE_DIRECTORY}/Annotate/UniRef
 
 wget -v -P ${DATABASE_DIRECTORY}/Annotate/UniRef/ https://ftp.uniprot.org/pub/databases/uniprot/current_release/uniref/uniref90/uniref90.release_note
 wget -v -P ${DATABASE_DIRECTORY} https://ftp.uniprot.org/pub/databases/uniprot/uniref/uniref90/uniref90.fasta.gz
-diamond makedb --in ${DATABASE_DIRECTORY}/uniref90.fasta.gz --db ${DATABASE_DIRECTORY}/Annotate/UniRef/uniref90.dmnd
+diamond makedb --in ${DATABASE_DIRECTORY}/uniref90.fasta.gz --db ${DATABASE_DIRECTORY}/Annotate/UniRef/uniref90.dmnd --threads ${N_JOBS}
 rm -rf ${DATABASE_DIRECTORY}/uniref90.fasta.gz
 
 wget -v -P ${DATABASE_DIRECTORY}/Annotate/UniRef/ https://ftp.uniprot.org/pub/databases/uniprot/current_release/uniref/uniref50/uniref50.release_note
 wget -v -P ${DATABASE_DIRECTORY} https://ftp.uniprot.org/pub/databases/uniprot/uniref/uniref50/uniref50.fasta.gz
-diamond makedb --in ${DATABASE_DIRECTORY}/uniref50.fasta.gz --db ${DATABASE_DIRECTORY}/Annotate/UniRef/uniref50.dmnd
+diamond makedb --in ${DATABASE_DIRECTORY}/uniref50.fasta.gz --db ${DATABASE_DIRECTORY}/Annotate/UniRef/uniref50.dmnd --threads ${N_JOBS}
 rm -rf ${DATABASE_DIRECTORY}/uniref50.fasta.gz
 
 #MiBIG
 mkdir -v -p ${DATABASE_DIRECTORY}/Annotate/MIBiG
 wget -v -P ${DATABASE_DIRECTORY} https://dl.secondarymetabolites.org/mibig/mibig_prot_seqs_3.1.fasta
 seqkit rmdup -s ${DATABASE_DIRECTORY}/mibig_prot_seqs_3.1.fasta > ${DATABASE_DIRECTORY}/mibig_prot_seqs_3.1.rmdup.fasta
-diamond makedb --in ${DATABASE_DIRECTORY}/mibig_prot_seqs_3.1.rmdup.fasta --db ${DATABASE_DIRECTORY}/Annotate/MIBiG/mibig_v3.1.dmnd
+diamond makedb --in ${DATABASE_DIRECTORY}/mibig_prot_seqs_3.1.rmdup.fasta --db ${DATABASE_DIRECTORY}/Annotate/MIBiG/mibig_v3.1.dmnd --threads ${N_JOBS}
 rm -rf ${DATABASE_DIRECTORY}/mibig_prot_seqs_3.1.fasta
 rm -rf ${DATABASE_DIRECTORY}/mibig_prot_seqs_3.1.rmdup.fasta
 
@@ -104,13 +110,13 @@ rm -rf ${DATABASE_DIRECTORY}/mibig_prot_seqs_3.1.rmdup.fasta
 mkdir -v -p ${DATABASE_DIRECTORY}/Annotate/VFDB
 wget -v -P ${DATABASE_DIRECTORY} http://www.mgc.ac.cn/VFs/Down/VFDB_setA_pro.fas.gz
 wget -v -P ${DATABASE_DIRECTORY}/Annotate/VFDB/ http://www.mgc.ac.cn/VFs/Down/VFs.xls.gz
-diamond makedb --in ${DATABASE_DIRECTORY}/VFDB_setA_pro.fas.gz --db ${DATABASE_DIRECTORY}/Annotate/VFDB/VFDB_setA_pro.dmnd
+diamond makedb --in ${DATABASE_DIRECTORY}/VFDB_setA_pro.fas.gz --db ${DATABASE_DIRECTORY}/Annotate/VFDB/VFDB_setA_pro.dmnd --threads ${N_JOBS}
 rm -rf ${DATABASE_DIRECTORY}/VFDB_setA_pro.fas.gz
 
 # CAZy
 mkdir -v -p ${DATABASE_DIRECTORY}/Annotate/CAZy
 wget -v -P ${DATABASE_DIRECTORY} https://bcb.unl.edu/dbCAN2/download/CAZyDB.07262023.fa
-diamond makedb --in ${DATABASE_DIRECTORY}/CAZyDB.07262023.fa --db ${DATABASE_DIRECTORY}/Annotate/CAZy/CAZyDB.07262023.dmnd
+diamond makedb --in ${DATABASE_DIRECTORY}/CAZyDB.07262023.fa --db ${DATABASE_DIRECTORY}/Annotate/CAZy/CAZyDB.07262023.dmnd --threads ${N_JOBS}
 rm -rf ${DATABASE_DIRECTORY}/CAZyDB.07262023.fa
 
 
