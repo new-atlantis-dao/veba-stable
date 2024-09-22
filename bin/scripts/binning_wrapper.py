@@ -12,7 +12,11 @@ from soothsayer_utils import *
 
 # from tqdm import tqdm
 __program__ = os.path.split(sys.argv[0])[-1]
+<<<<<<< HEAD
 __version__ = "2023.12.4"
+=======
+__version__ = "2024.8.29"
+>>>>>>> 5690f370f243338e6c84da4b7df7be6740e21133
 
 def get_maxbin2_cmd( input_filepaths, output_filepaths, output_directory, directories, opts):
     # Create dummy scaffolds_to_bins.tsv to overwrite later. This makes DAS_Tool easier to run
@@ -281,7 +285,11 @@ for FP in %s;
 #     "&&",
 #     # VAMB
 #     "(",
+<<<<<<< HEAD
 #     "rm -r {}".format(output_directory), # There can't be an existing directory for some reason
+=======
+#     "rm -rf {}".format(output_directory), # There can't be an existing directory for some reason
+>>>>>>> 5690f370f243338e6c84da4b7df7be6740e21133
 #     "&&",
 #     os.environ["vamb"],
 #     "--fasta {}".format(input_filepaths[0]),

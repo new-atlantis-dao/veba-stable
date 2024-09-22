@@ -49,11 +49,19 @@ ___________________________________________________________________
 
 ### Announcements
 
+<<<<<<< HEAD
 * **Current Stable Version:** [`v2.2.0`](https://github.com/jolespin/veba/releases/tag/v2.2.0)
 
 * **Current Database Version:** [`VDB_v7`](install/DATABASE.md)
 
 	If you are updating to v2.2.0 you will need to modify your existing database.  
+=======
+* **Current Stable Version:** [`v2.2.1`](https://github.com/jolespin/veba/releases/tag/v2.2.0)
+
+* **Current Database Version:** [`VDB_v7`](install/DATABASE.md)
+
+	If you are updating to ≥v2.2.0 you will need to modify your existing database.  
+>>>>>>> 5690f370f243338e6c84da4b7df7be6740e21133
 	Please see [FAQs](FAQ.md#how-can-i-update-the-database-from-veba-v210-veba-database-vdb_v6-to-veba-v220-veba-database-vdb_v7) for more details.
 
 	<details>
