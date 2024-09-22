@@ -417,12 +417,7 @@ def get_diamond_cmd( input_filepaths, output_filepaths, output_directory, direct
 
             "&&",
 
-<<<<<<< HEAD
-        "rm",
-        "-rf",
-=======
         "rm -rf",
->>>>>>> 5690f370f243338e6c84da4b7df7be6740e21133
         os.path.join(directories["tmp"], "components.concatenated.faa"),
         os.path.join(output_directory, "*.no_header.tsv"),
 

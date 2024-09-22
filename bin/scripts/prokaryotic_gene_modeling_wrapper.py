@@ -12,11 +12,7 @@ from soothsayer_utils import *
 
 # from tqdm import tqdm
 __program__ = os.path.split(sys.argv[0])[-1]
-<<<<<<< HEAD
-__version__ = "2023.8.28"
-=======
 __version__ = "2024.8.29"
->>>>>>> 5690f370f243338e6c84da4b7df7be6740e21133
 
 # Pyrodigal
 def get_pyrodigal_cmd(input_filepaths, output_filepaths, output_directory, directories, opts):
@@ -59,11 +55,7 @@ def get_pyrodigal_cmd(input_filepaths, output_filepaths, output_directory, direc
 
             "&&",
 
-<<<<<<< HEAD
-        "rm",
-=======
         "rm -rf",
->>>>>>> 5690f370f243338e6c84da4b7df7be6740e21133
         os.path.join(directories["tmp"], "tmp.*")
 
     ]
@@ -175,11 +167,7 @@ def get_pyrodigal_cmd(input_filepaths, output_filepaths, output_directory, direc
 
             "&&",
 
-<<<<<<< HEAD
-        "rm",
-=======
         "rm -rf",
->>>>>>> 5690f370f243338e6c84da4b7df7be6740e21133
         os.path.join(directories["tmp"], "tmp.*"),
         ]
     

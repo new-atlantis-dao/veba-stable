@@ -1,10 +1,7 @@
 # VEBA Microeukaryotic Protein Database (MicroEuk100/90/50)
 
-<<<<<<< HEAD
-=======
 **MicroEuk_v3** is publicly available at [10.5281/zenodo.10139450](https://zenodo.org/records/10139451) (26GB).
 
->>>>>>> 5690f370f243338e6c84da4b7df7be6740e21133
 Since we are all about [FAIR principles for scientific stewardship](https://www.go-fair.org/fair-principles/), here is a step-by-step guide to recreating VEBA's Microeukaryotic Protein Database (now referred to as MicroEuk100/90/50).
 
 | Dataset     | Number of sequences | File size (Gzipped) | Compression of MicroEuk100 |

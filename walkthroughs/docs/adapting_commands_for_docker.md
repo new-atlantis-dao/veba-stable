@@ -29,11 +29,7 @@ Let's say you wanted to use the `preprocess` module.  Download the Docker image 
 
 ```bash
 # Version
-<<<<<<< HEAD
-VERSION=2.1.0
-=======
-VERSION=2.2.1
->>>>>>> 5690f370f243338e6c84da4b7df7be6740e21133
+VERSION=2.3.0
 
 # Image
 DOCKER_IMAGE="jolespin/veba_preprocess:${VERSION}"
@@ -96,11 +92,7 @@ CMD="preprocess.py -1 ${CONTAINER_WORKING_DIRECTORY}/${R1} -2 ${CONTAINER_WORKIN
 
 # Docker
 # Version
-<<<<<<< HEAD
-VERSION=2.1.0
-=======
-VERSION=2.2.1
->>>>>>> 5690f370f243338e6c84da4b7df7be6740e21133
+VERSION=2.3.0
 
 # Image
 DOCKER_IMAGE="jolespin/veba_preprocess:${VERSION}"
@@ -150,11 +142,7 @@ CMD="preprocess.py -1 ${CONTAINER_INPUT_DIRECTORY}/${R1} -2 ${CONTAINER_INPUT_DI
 
 # Docker
 # Version
-<<<<<<< HEAD
-VERSION=2.1.0
-=======
-VERSION=2.2.1
->>>>>>> 5690f370f243338e6c84da4b7df7be6740e21133
+VERSION=2.3.0
 
 # Image
 DOCKER_IMAGE="jolespin/veba_preprocess:${VERSION}"
@@ -220,11 +208,7 @@ CMD="assembly.py -1 ${CONTAINER_WORKING_DIRECTORY}/${R1} -2 ${CONTAINER_WORKING_
 
 # Docker
 # Version
-<<<<<<< HEAD
-VERSION=2.1.0
-=======
-VERSION=2.2.1
->>>>>>> 5690f370f243338e6c84da4b7df7be6740e21133
+VERSION=2.3.0
 
 # Image
 DOCKER_IMAGE="jolespin/veba_assembly:${VERSION}"
@@ -264,11 +248,7 @@ CMD="binning-prokaryotic.py -f ${CONTAINER_WORKING_DIRECTORY}/${FASTA} -b ${CONT
 
 # Docker
 # Version
-<<<<<<< HEAD
-VERSION=2.1.0
-=======
-VERSION=2.2.1
->>>>>>> 5690f370f243338e6c84da4b7df7be6740e21133
+VERSION=2.3.0
 
 # Image
 DOCKER_IMAGE="jolespin/veba_binning-prokaryotic:${VERSION}"

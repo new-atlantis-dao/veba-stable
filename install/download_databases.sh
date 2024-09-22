@@ -1,16 +1,9 @@
 #!/bin/bash
-<<<<<<< HEAD
-# __version__ = "2024.5.7"
-# VEBA_DATABASE_VERSION = "VDB_v6"
+# __version__ = "2024.9.21"
 # MICROEUKAYROTIC_DATABASE_VERSION = "MicroEuk_v3"
-# usage: bash veba/download_databases.sh /path/to/veba_database_destination/ [optional positional argument: /path/to/conda_environments/]
-=======
-# __version__ = "2024.8.29"
-# MICROEUKAYROTIC_DATABASE_VERSION = "MicroEuk_v3"
-# usage: bash veba/download_databases.sh /path/to/veba_database_destination/ [optional positional argument: /path/to/conda_environments/]
+# usage: bash veba/download_databases.sh /path/to/veba_database_destination/ [optional positional argument: /path/to/conda_environments/ number_of_threads]
 # Version
-VEBA_DATABASE_VERSION="VDB_v7"
->>>>>>> 5690f370f243338e6c84da4b7df7be6740e21133
+VEBA_DATABASE_VERSION="VDB_v8"
 
 # Arguments
 DATABASE_DIRECTORY=${1:-"."}
@@ -19,7 +12,12 @@ SCRIPT_DIRECTORY=$(dirname "$0")
 
 CONDA_ENVS_PATH=${2:-"$(conda info --base)/envs/"}
 
-# N_JOBS=$(2:-"1")
+MAXIMUM_NUMBER_OF_CPU=$(python -c "from multiprocessing import cpu_count; print(cpu_count())")
+N_JOBS=${3:-${MAXIMUM_NUMBER_OF_CPU}}
+echo ". .. ... ..... ........ ............."
+echo "Detected ${MAXIMUM_NUMBER_OF_CPU} available threads"
+echo "Using ${N_JOBS} threads"
+echo ". .. ... ..... ........ ............."
 
 # Database structure
 echo ". .. ... ..... ........ ............."
@@ -40,24 +38,24 @@ echo $VEBA_DATABASE_VERSION > ${DATABASE_DIRECTORY}/VERSION
 echo ". .. ... ..... ........ ............."
 echo "Downloading and configuring database (markers)"
 echo ". .. ... ..... ........ ............."
-bash ${SCRIPT_DIRECTORY}/download_databases-markers.sh ${DATABASE_DIRECTORY} | grep -v "\[partial-database\]"
+bash ${SCRIPT_DIRECTORY}/download_databases-markers.sh ${DATABASE_DIRECTORY} ${N_JOBS} | grep -v "\[partial-database\]"
 
 echo ". .. ... ..... ........ ............."
 echo "Downloading and configuring database (contamination)"
 echo ". .. ... ..... ........ ............."
-bash ${SCRIPT_DIRECTORY}/download_databases-contamination.sh ${DATABASE_DIRECTORY} | grep -v "\[partial-database\]"
+bash ${SCRIPT_DIRECTORY}/download_databases-contamination.sh ${DATABASE_DIRECTORY} ${N_JOBS} | grep -v "\[partial-database\]"
 
 echo ". .. ... ..... ........ ............."
 echo "Downloading and configuring database (classify)"
 echo ". .. ... ..... ........ ............."
 echo "This might take a while depending on source database i/o speed..."
-bash ${SCRIPT_DIRECTORY}/download_databases-classify.sh ${DATABASE_DIRECTORY} | grep -v "\[partial-database\]"
+bash ${SCRIPT_DIRECTORY}/download_databases-classify.sh ${DATABASE_DIRECTORY} ${N_JOBS} | grep -v "\[partial-database\]"
 
 echo ". .. ... ..... ........ ............."
 echo "Downloading and configuring database (annotate)"
 echo ". .. ... ..... ........ ............."
 echo "This might take a while depending on source database i/o speed..."
-bash ${SCRIPT_DIRECTORY}/download_databases-annotate.sh ${DATABASE_DIRECTORY} | grep -v "\[partial-database\]"
+bash ${SCRIPT_DIRECTORY}/download_databases-annotate.sh ${DATABASE_DIRECTORY} ${N_JOBS} | grep -v "\[partial-database\]"
 
 # Environment variables
 echo ". .. ... ..... ........ ............."
